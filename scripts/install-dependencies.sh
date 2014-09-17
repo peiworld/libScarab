@@ -62,7 +62,12 @@ if [ ! -d "mpir-2.6.0" ]; then
     tar xjf mpir-2.6.0.tar.bz2
 fi
 
+
 cd mpir-2.6.0
+cp ../../x86_64.patch ./
+if [ $(uname -m) = "x86_64" ]; then
+    patch -p0 <x86_64.patch
+fi
 ./configure
 make
 make check
