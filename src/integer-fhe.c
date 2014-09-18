@@ -15,6 +15,9 @@
 #define SEED time(NULL)
 #endif
 
+/*
+ * Generate a keypair
+ */
 void
 fhe_keygen(fhe_pk_t pk, fhe_sk_t sk)
 {
@@ -196,6 +199,9 @@ fhe_keygen(fhe_pk_t pk, fhe_sk_t sk)
 	gmp_randclear(randstate);
 }
 
+/*
+ * Encrypt a message (0 or 1)
+ */
 void
 fhe_encrypt(mpz_t c, fhe_pk_t pk, int m)
 {
@@ -265,7 +271,9 @@ fhe_encrypt(mpz_t c, fhe_pk_t pk, int m)
 	gmp_randclear(randstate);
 }
 
-
+/*
+ * Decrypt a cyphertext
+ */
 int
 fhe_decrypt(mpz_t c, fhe_sk_t sk)
 {
@@ -317,7 +325,7 @@ fhe_decrypt(mpz_t c, fhe_sk_t sk)
 	return m;
 }
 
-
+// Add cyphertexts (= XOR)
 void
 fhe_add(mpz_t res, mpz_t a, mpz_t b, fhe_pk_t pk)
 {
@@ -326,7 +334,7 @@ fhe_add(mpz_t res, mpz_t a, mpz_t b, fhe_pk_t pk)
 	fhe_recrypt(res, pk);
 }
 
-
+// Multiply cyphertexts (= AND)
 void
 fhe_mul(mpz_t res, mpz_t a, mpz_t b, fhe_pk_t pk)
 {
@@ -335,7 +343,7 @@ fhe_mul(mpz_t res, mpz_t a, mpz_t b, fhe_pk_t pk)
 	fhe_recrypt(res, pk);
 }
 
-
+// Add with carry in and carry out
 void
 fhe_fulladd(mpz_t sum, mpz_t c_out, mpz_t a, mpz_t b, mpz_t c_in, fhe_pk_t pk)
 {
@@ -354,7 +362,7 @@ fhe_fulladd(mpz_t sum, mpz_t c_out, mpz_t a, mpz_t b, mpz_t c_in, fhe_pk_t pk)
 	mpz_clear(temp);
 }
 
-
+// Add with carry out
 void
 fhe_halfadd(mpz_t sum, mpz_t c_out, mpz_t a, mpz_t b, fhe_pk_t pk)
 {
@@ -393,6 +401,7 @@ fhe_halfadd(mpz_t sum, mpz_t c_out, mpz_t a, mpz_t b, fhe_pk_t pk)
 		printf("\n\t");										\
 	};  printf("\n")
 
+// Recrypt a cyphertext (“refreshing” it)
 void
 fhe_recrypt(mpz_t c, fhe_pk_t pk)
 {
