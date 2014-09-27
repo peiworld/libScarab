@@ -7,10 +7,9 @@
 
 int main(int argc, char **argv)
 {
-	/*
-	 * run tests defined in the test.c
-	 */
-	//test_suite();
+
+
+	printf("FHE Testing...\n");
 
 	//test_fully_homomorphic();
 	//test_homomorphic();
@@ -18,6 +17,7 @@ int main(int argc, char **argv)
 	//test_encryt_decrypt();
 	//test_halfadd();
 	test_fulladd();
+	//test_suite();
 	
 	exit(0);
 }
