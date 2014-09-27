@@ -33,8 +33,8 @@ $(LIBRARY):
 
 install:
 	cp $(LIBRARY) $(PREFIX_LIB)/
-	ldconfig
+	update_dyld_shared_cache #ldconfig
 
 uninstall:
 	rm $(PREFIX_LIB)/$(LIBRARY_FILENAME)
-	ldconfig
+	update_dyld_shared_cache #ldconfig

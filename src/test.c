@@ -26,6 +26,9 @@
 	fhe_add(temp, __a, __b, pk);					\
 	assert(fhe_decrypt(temp, sk) == __check);
 
+/*
+ * run all tests
+ */
 void
 test_suite()
 {
@@ -264,12 +267,18 @@ test_fully_homomorphic()
 	printf("FULLY HOMOMORPHIC (with recrypt)\n");
 	
 	int m;
+	/*
+	 * c0, c1 are the messge m1, m2
+	 */
 	mpz_t c0, c1, temp;
 	
 	mpz_init(c0);
 	mpz_init(c1);
 	mpz_init(temp);
 	
+	/*
+	 * pk, sk are the key pairs
+	 */
 	fhe_pk_t pk;
 	fhe_sk_t sk;
 	fhe_pk_init(pk);

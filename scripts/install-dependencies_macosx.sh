@@ -4,6 +4,14 @@ set -e
 
 #
 # Download and build dependencies
+# You will need to install gcc-4.6 or greater for mpir on 64bits system, I have tested on gcc49
+# also, to make the new gcc49 as default, you need to run
+# This will install several binaries with the -mp-4.9 (as gcc-mp-4.9). You can then activate gcc 4.9 as default with
+#		sudo port select gcc mp-gcc49
+#   	hash gcc
+# To go back to the Apple LLVM compiler
+#		sudo port select gcc none
+#		hash gcc
 #
 
 mkdir -p lib
@@ -39,7 +47,7 @@ cd gmp-6.0.0
 make
 make check
 sudo make install
-sudo ldconfig
+sudo update_dyld_shared_cache #ldconfig
 cd ..
 
 # Install mpfr
@@ -53,7 +61,7 @@ cd mpfr-3.1.1
 make
 make check
 sudo make install
-sudo ldconfig
+sudo update_dyld_shared_cache #ldconfig
 cd ..
 
 # Install mpir
@@ -64,20 +72,22 @@ fi
 
 
 cd mpir-2.6.0
-#######
-# if the patch is failing, e.g., you patch already, then comment this block out
-#######
-cp ../../x86_64.patch ./
-if [ $(uname -m) = "x86_64" ]; then
-       patch -p0 -N < x86_64.patch
-    fi
-fi
-########
+#cp ../../x86_64.patch ./
+#if [ $(uname -m) = "x86_64" ]; then
+#    nohup patch -p0 -N --dry-run --silent < x86_64.patch 2>/dev/null
+#    #If the patch has not been applied then the $? which is the exit status 
+#    #for last command would have a success status code = 0
+#    if [ $? -eq 0 ];
+#    then
+#       #apply the patch
+#       patch -p0 -N < x86_64.patch
+#    fi
+#fi
 ./configure
 make
 make check
 sudo make install
-sudo ldconfig
+sudo update_dyld_shared_cache #ldconfig
 cd ..
 
 # Install flint (ok, this is perhaps quite a bit strange)
@@ -89,10 +99,10 @@ fi
 cd flint-1.6
 . flint_env
 make library
-sudo cp libflint.so /usr/local/lib
+sudo cp libflint.dylib /usr/local/lib
 sudo cp *.h /usr/local/include
 sudo mkdir -p /usr/local/include/zn_poly/src
 sudo cp zn_poly/include/*.h /usr/local/include/zn_poly/src/
-sudo ldconfig
+sudo update_dyld_shared_cache #ldconfig
 cd ..
 
