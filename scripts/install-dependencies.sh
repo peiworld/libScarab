@@ -70,7 +70,6 @@ cd mpir-2.6.0
 cp ../../x86_64.patch ./
 if [ $(uname -m) = "x86_64" ]; then
        patch -p0 -N < x86_64.patch
-    fi
 fi
 ########
 ./configure
